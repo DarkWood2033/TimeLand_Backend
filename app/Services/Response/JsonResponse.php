@@ -60,6 +60,13 @@ class JsonResponse
         return $this->data;
     }
 
+    public function setData(array $data): JsonResponse
+    {
+        $this->data = array_merge($data, $this->data);
+
+        return $this;
+    }
+
     public function setMessage(string $message): JsonResponse
     {
         $this->data['message'] = $message;

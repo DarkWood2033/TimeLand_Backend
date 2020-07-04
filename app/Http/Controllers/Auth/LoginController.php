@@ -11,7 +11,6 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\JsonResponse as BaseJsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
@@ -43,7 +42,12 @@ class LoginController extends Controller
         }
 
         if ($token = $this->guard()->attempt($this->credentials($request))) {
-            return $this->sendLoginResponse($request, $token);
+            $this->clearLoginAttempts($request);
+
+            return (new JsonResponse())
+                ->setMessage(trans('message.auth.login.success'))
+                ->setData((new AuthResource($this->guard()->user(), $token))->toArray($request))
+                ->send();
         }
 
         $this->incrementLoginAttempts($request);
@@ -63,28 +67,28 @@ class LoginController extends Controller
             ->send();
     }
 
+    /**
+     * @return AuthResource|void
+     */
+    public function refresh()
+    {
+        if($token = $this->guard()->refresh()){
+
+            return new AuthResource($this->guard()->user(), $token);
+        }
+
+        return abort(401);
+    }
+
     protected function credentials(AuthRequest $request)
     {
         return $request->only($this->username(), 'password');
     }
 
     /**
-     * @param Request $request
-     * @param $token
-     * @return AuthResource
-     */
-    protected function sendLoginResponse(Request $request, $token)
-    {
-        $this->clearLoginAttempts($request);
-
-        return new AuthResource(auth()->user(), $token);
-    }
-
-    /**
-     * @param AuthRequest $request
      * @throws ValidationException
      */
-    protected function sendFailedLoginResponse(AuthRequest $request)
+    protected function sendFailedLoginResponse()
     {
         throw ValidationException::withMessages([
             $this->username() => [trans('message.auth.login.error')],
