@@ -8,7 +8,6 @@ use App\Http\Resources\Auth\AuthResource;
 use App\Repositories\User\UserRepository;
 use App\Services\Response\JsonResponse;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -31,6 +30,7 @@ class RegisterController extends Controller
         );
 
         event(new Registered($user));
+        $user->sendEmailVerificationNotification();
 
         $token = $this->guard()->login($user);
 

@@ -44,10 +44,10 @@ class VerifyEmail extends Notification
         }
 
         return (new MailMessage)
-            ->subject(trans('Verify Email Address'))
-            ->line(trans('Please click the button below to verify your email address.'))
-            ->action(trans('Verify Email Address'), $verificationUrl)
-            ->line(trans('If you did not create an account, no further action is required.'));
+            ->subject(trans('mail.resend.subject'))
+            ->line(trans('mail.resend.message'))
+            ->action(trans('mail.resend.action'), $verificationUrl)
+            ->line(trans('mail.resend.forget'));
     }
 
     /**

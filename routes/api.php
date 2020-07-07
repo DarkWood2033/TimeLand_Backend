@@ -12,6 +12,11 @@ Route::prefix('auth')->namespace('Auth')->group(function(){
             ->name('auth.logout');
         Route::get('refresh', 'LoginController@refresh')
             ->name('auth.refresh');
+        // Email verification
+        Route::get('email/resend', 'VerificationController@resend')
+            ->name('email.resend');
+        Route::post('verify', 'VerificationController@verify')
+            ->name('email.verify');
 
     });
 
@@ -19,5 +24,8 @@ Route::prefix('auth')->namespace('Auth')->group(function(){
         ->name('auth.login');
     Route::post('registration', 'RegisterController@registration')
         ->name('auth.registration');
+    // Email verification
+    Route::get('verify', 'VerificationController@show')
+        ->name('email.show');
 
 });

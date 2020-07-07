@@ -83,7 +83,7 @@ class VerificationController extends Controller
     protected function responseAlreadyVerified()
     {
         return (new JsonResponse)
-            ->setStatus( 204)
+            ->setStatus(204)
             ->send();
     }
 
@@ -93,7 +93,7 @@ class VerificationController extends Controller
     protected function responseResendEmail()
     {
         return (new JsonResponse)
-            ->setStatus( 202)
+            ->setStatus(202)
             ->send();
     }
 
@@ -103,7 +103,7 @@ class VerificationController extends Controller
     protected function responseConfirmed()
     {
         return (new JsonResponse)
-            ->setStatus( 202)
+            ->setStatus(202)
             ->send();
     }
 }
