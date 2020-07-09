@@ -88,6 +88,13 @@ class JsonResponse
         return $this;
     }
 
+    public function setErrors(array $errors): JsonResponse
+    {
+        $this->data['errors'] = $errors;
+
+        return $this;
+    }
+
     public function send(): BaseJsonResponse
     {
         return new BaseJsonResponse($this->data, $this->status, $this->headers);

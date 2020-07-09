@@ -27,5 +27,12 @@ Route::prefix('auth')->namespace('Auth')->group(function(){
     // Email verification
     Route::get('verify', 'VerificationController@show')
         ->name('email.show');
+    // Forgot password
+    Route::post('password/send', 'ForgotPasswordController@sendResetLinkEmail')
+        ->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@show')
+        ->name('password.reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')
+        ->name('password.update');
 
 });
