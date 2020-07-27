@@ -84,6 +84,4 @@ class DoctrineUserRepository extends Repository implements UserRepository
     {
         return 'user';
     }
-
-
 }

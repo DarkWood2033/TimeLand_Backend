@@ -36,3 +36,10 @@ Route::prefix('auth')->namespace('Auth')->group(function(){
         ->name('password.update');
 
 });
+
+
+/* Timer */
+
+Route::apiResource('user/timers', 'Timer\TimerController')
+    ->names('user.timers')
+    ->middleware('auth:api');

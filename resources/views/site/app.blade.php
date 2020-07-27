@@ -12,6 +12,9 @@
 </head>
 <body>
 
+<div id="loading_app" style="height: 100vh;width: 100vw;">
+    <img src="/site/img/loading.gif" alt="" style="position: absolute;left: 50%;top: 50%;transform: translate(-75px, -75px);width: 150px;">
+</div>
 <div id="app"></div>
 
 <script>
