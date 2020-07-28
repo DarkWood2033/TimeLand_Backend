@@ -1,7 +1,10 @@
 <?php
 
+use App\Entities\Support;
 use App\Entities\Timer;
 use App\Entities\User;
+use App\Repositories\Support\DoctrineSupportRepository;
+use App\Repositories\Support\SupportRepository;
 use App\Repositories\Timer\DoctrineTimerRepository;
 use App\Repositories\Timer\TimerRepository;
 use App\Repositories\User\DoctrineUserRepository;
@@ -19,6 +22,14 @@ return [
     TimerRepository::class => [
         'concrete' => DoctrineTimerRepository::class,
         'entity' => Timer::class,
+        'caching' => [
+            'enabled' => true,
+            'lifetime' => 3600
+        ]
+    ],
+    SupportRepository::class => [
+        'concrete' => DoctrineSupportRepository::class,
+        'entity' => Support::class,
         'caching' => [
             'enabled' => true,
             'lifetime' => 3600
