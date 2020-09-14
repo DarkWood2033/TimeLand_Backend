@@ -1,67 +1,47 @@
 <?php
 
-namespace App\Repositories\User;
+namespace App\Repositories\Support;
 
-use App\Entities\User;
+use App\Entities\Support;
 use App\Repositories\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DoctrineUserRepository extends Repository implements UserRepository
+class DoctrineSupportRepository extends Repository implements SupportRepository
 {
-    /**
-     * @param $name
-     * @param $email
-     * @param $password
-     * @return User
-     */
-    public function create($name, $email, $password): User
+    public function create($name, $email, $subject, $message): Support
     {
-        $user = new User($name, $email, $password);
+        $support = new Support($name, $email, $subject, $message);
 
-        $this->em->persist($user);
+        $this->em->persist($support);
         $this->em->flush();
 
-        return $user;
+        return $support;
     }
 
-    /**
-     * @param User $user
-     */
-    public function update(User $user): void
+    public function update(Support $support): void
     {
         $this->clearResultCache();
-        $this->em->merge($user);
+        $this->em->merge($support);
         $this->em->flush();
     }
 
-    /**
-     * @param User $user
-     */
-    public function remove(User $user): void
+    public function remove(Support $support): void
     {
         $this->clearResultCache();
-        $this->em->remove($user);
+        $this->em->remove($support);
         $this->em->flush();
     }
 
-    /**
-     * @param $id
-     * @return User|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function getEdit($id): ?User
+    public function getEdit($id): ?Support
     {
         return $this->createQBWithAssociation()
-            ->where('user.id = :id')
+            ->where('support.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->useResultCache($this->cachingOptions->isEnabled(), $this->cachingOptions->getLifetime())
             ->getOneOrNullResult();
     }
 
-    /**
-     * @return User[]
-     */
     public function getAll()
     {
         return $this->createQBWithAssociation()
@@ -82,6 +62,6 @@ class DoctrineUserRepository extends Repository implements UserRepository
 
     protected function getAlias(): string
     {
-        return 'user';
+        return 'support';
     }
 }
